@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Jobs from "./components/Jobs";
+import Bookmarks from "./components/Bookmarks";
+import "./App.css";
 
 function App() {
+  const [navigationPage, setNavigationPage] = useState("Jobs");
+  const onClickJobs = () => setNavigationPage("Jobs");
+  const onClickBookmarks = () => setNavigationPage("Bookmarks");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app">
+      {navigationPage === "Jobs" ? <Jobs /> : <Bookmarks />}
+      <div className="bottom-nav-bar">
+        <button
+          onClick={onClickJobs}
+          className={
+            navigationPage === "Jobs" ? "active-nav-buttons" : "nav-buttons"
+          }
         >
-          Learn React
-        </a>
-      </header>
+          Jobs
+        </button>
+        <button
+          onClick={onClickBookmarks}
+          className={
+            navigationPage === "Bookmarks"
+              ? "active-nav-buttons"
+              : "nav-buttons"
+          }
+        >
+          Bookmarks
+        </button>
+      </div>
     </div>
   );
 }
-
 export default App;

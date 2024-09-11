@@ -1,38 +1,38 @@
-.App {
+.bottom-nav-bar {
+  position: fixed; /* This makes the navigation bar stay in place */
+  bottom: 0; /* Positions the navbar at the bottom */
+  left: 0;
+  right: 0;
+  background-color: white;
+  height: 40px;
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
-
-.App-link {
-  color: #61dafb;
+.app {
+  background-color: rgb(230, 226, 226);
+  height: 100vh;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-buttons {
+  background-color: transparent;
+  font-size: 22px;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.active-nav-buttons {
+  color: blue;
+  border-color: blue;
+  background-color: transparent;
+  font-size: 22px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
