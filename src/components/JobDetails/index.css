@@ -1,0 +1,22 @@
+.job-detail-container{
+    background-color: white;
+    min-height: 85vh;
+    padding: 20px;
+    border-style: solid;
+    border-color: rgb(157, 150, 150);
+    margin: 20px;
+    border-radius: 15px;
+   
+}
+.companeyName{
+    margin: 0px;
+}
+.title{
+    font-size: 22px;
+}
+.add-bookmark{
+    font-size: 18px;
+}
+.apply-now{
+    margin-right: 30px;
+}

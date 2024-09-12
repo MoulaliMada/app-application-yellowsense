@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import Jobcard from "../Jobcard";
+import JobDetails from "../JobDetails";
 import "./index.css";
 class Jobs extends Component {
   state = {
@@ -15,6 +16,8 @@ class Jobs extends Component {
   componentDidMount() {
     this.getJobDetails();
     window.addEventListener("scroll", this.handleScroll);
+    const localstorageBookmarks = localStorage.getItem("bookmarks");
+    this.setState({ bookmarks: [localstorageBookmarks] });
   }
 
   getJobDetails = async () => {
@@ -89,7 +92,6 @@ class Jobs extends Component {
 
   onclickJobCard = (id) => {
     this.setState({ jobDetailsId: id });
-    console.log(id);
   };
 
   renderJobsView = () => {
@@ -110,9 +112,45 @@ class Jobs extends Component {
     );
   };
 
-  renderJobDetailsView=()=>{
-    console.log("ff")
-  }
+  onClickAddorRemoveBookMark = (id) => {
+    const { jobs, bookmarks } = this.state;
+    const jobData = jobs.find((eachjob) => eachjob.id === id);
+    const isBookMarkd = jobData.isBookMark;
+    if (!isBookMarkd) {
+      const updatedJobData = { ...jobData, isBookMark: true };
+      const filterRemainingJobs = jobs.filter((eachjob) => eachjob.id !== id);
+      this.setState({
+        bookmarks: [...bookmarks, updatedJobData],
+        jobs: [...filterRemainingJobs, updatedJobData],
+      });
+      const jobBookMarks = [...bookmarks, updatedJobData];
+      console.log(jobBookMarks);
+      localStorage.setItem("bookmarks", JSON.stringify(jobBookMarks));
+    } else {
+      const afterRemoveJobData = bookmarks.filter(
+        (eachJob) => eachJob.id !== id
+      );
+      localStorage.setItem("bookmarks", JSON.stringify(afterRemoveJobData));
+      const updatedJobData = { ...jobData, isBookMark: false };
+      const filterRemainingJobs = jobs.filter((eachjob) => eachjob.id !== id);
+      this.setState({
+        jobs: [...filterRemainingJobs, updatedJobData],
+        bookmarks: afterRemoveJobData,
+      });
+    }
+    console.log(jobData);
+  };
+
+  renderJobDetailsView = () => {
+    const { jobs, jobDetailsId } = this.state;
+    const jobData = jobs.find((eachjob) => eachjob.id === jobDetailsId);
+    return (
+      <JobDetails
+        jobData={jobData}
+        clickAddorRemoveBookMark={this.onClickAddorRemoveBookMark}
+      />
+    );
+  };
 
   render() {
     const { isLoading, jobs, error, jobDetailsId } = this.state;
