@@ -1,0 +1,28 @@
+.jobcard{
+    border-style: solid;
+    border-radius: 20px;
+    margin: 20px;
+    height: 220px;
+    background-color: white;
+    padding: 15px;
+}
+.job-title{
+font-size: 17px;
+}
+.watsapp-salary{
+    display: flex;
+}
+.whatsapp{
+    width: 110px;margin: 0px;
+}
+.salary{
+margin: 0px;
+}
+.add-bookmark{
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: transparent;
+    border-radius: 8px;
+    color: blue;
+}

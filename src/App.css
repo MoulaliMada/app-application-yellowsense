@@ -9,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
 }
 .app {
   background-color: rgb(230, 226, 226);

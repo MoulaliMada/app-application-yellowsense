@@ -1,0 +1,21 @@
+.jobs-loader-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    bottom:40px
+}
+.jobs-ul-container{
+    flex-wrap: wrap;
+    overflow-y: auto;
+    list-style-type: none;
+    height: 100vh;
+    padding: 0px;
+}
+.all-jobs-heading{
+    margin: 0px;
+    font-size: 35px;
+}
+.jobs-view{
+    padding: 13px;
+}
