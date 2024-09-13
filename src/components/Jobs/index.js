@@ -15,9 +15,12 @@ class Jobs extends Component {
   };
   componentDidMount() {
     this.getJobDetails();
-    window.addEventListener("scroll", this.handleScroll);
     const localstorageBookmarks = localStorage.getItem("bookmarks");
-    this.setState({ bookmarks: [localstorageBookmarks] });
+    const localStoragedata = JSON.parse(localstorageBookmarks);
+    if (localStoragedata !== null) {
+      this.setState({ bookmarks: localStoragedata });
+    }
+    window.addEventListener("scroll", this.handleScroll);
   }
 
   getJobDetails = async () => {
@@ -53,6 +56,7 @@ class Jobs extends Component {
             isLoading: false,
             page: page + 1,
           }));
+          this.updatedIsBookmard([...jobs, ...validJobs]);
         } else {
           this.setState({ jobs, isLoading: false, hasmoreJobs: false });
         }
@@ -60,6 +64,22 @@ class Jobs extends Component {
     } catch (error) {
       this.setState({ error, isLoading: false });
     }
+  };
+
+  updatedIsBookmard = (jobs) => {
+    const localstorageBookmarks = localStorage.getItem("bookmarks");
+    const localStoragedata = JSON.parse(localstorageBookmarks);
+    const jobsIds = localStoragedata.map((job) => job.id);
+    const updatedJobs = jobs.map((job) => {
+      const isSavedInlocalstorage = jobsIds.some((eachId) => eachId === job.id);
+      if (isSavedInlocalstorage) {
+        return {...job,isBookMark: true,};
+      } else {
+        return job;
+      }
+    });
+    console.log(jobs)
+    this.setState({ jobs: updatedJobs });
   };
 
   handleScroll = () => {
@@ -112,33 +132,36 @@ class Jobs extends Component {
     );
   };
 
-  onClickAddorRemoveBookMark = (id) => {
+  onClickBack = () => {
+    this.setState({ jobDetailsId: "" });
+  };
+
+  updateJobs = (id) => {
+    const { jobs } = this.state;
+    const clickedJob = jobs.find((each) => each.id === id);
+    const updateJobBookmark = {
+      ...clickedJob,
+      isBookMark: !clickedJob.isBookMark,
+    };
+    const remainingJobs = jobs.filter((eachJob) => eachJob.id !== id);
+    this.setState({ jobs: [...remainingJobs, updateJobBookmark] });
+  };
+
+  onClickRemoveBookMark = (id) => {
+    const { bookmarks } = this.state;
+    const removeBookMark = bookmarks.filter((eachJob) => eachJob.id !== id);
+    localStorage.setItem("bookmarks", JSON.stringify(removeBookMark));
+    this.setState({ bookmarks: removeBookMark });
+    this.updateJobs(id);
+  };
+
+  onClickAddBookMark = (id) => {
     const { jobs, bookmarks } = this.state;
-    const jobData = jobs.find((eachjob) => eachjob.id === id);
-    const isBookMarkd = jobData.isBookMark;
-    if (!isBookMarkd) {
-      const updatedJobData = { ...jobData, isBookMark: true };
-      const filterRemainingJobs = jobs.filter((eachjob) => eachjob.id !== id);
-      this.setState({
-        bookmarks: [...bookmarks, updatedJobData],
-        jobs: [...filterRemainingJobs, updatedJobData],
-      });
-      const jobBookMarks = [...bookmarks, updatedJobData];
-      console.log(jobBookMarks);
-      localStorage.setItem("bookmarks", JSON.stringify(jobBookMarks));
-    } else {
-      const afterRemoveJobData = bookmarks.filter(
-        (eachJob) => eachJob.id !== id
-      );
-      localStorage.setItem("bookmarks", JSON.stringify(afterRemoveJobData));
-      const updatedJobData = { ...jobData, isBookMark: false };
-      const filterRemainingJobs = jobs.filter((eachjob) => eachjob.id !== id);
-      this.setState({
-        jobs: [...filterRemainingJobs, updatedJobData],
-        bookmarks: afterRemoveJobData,
-      });
-    }
-    console.log(jobData);
+    const bookMarkJob = jobs.find((eachJob) => eachJob.id === id);
+    const bookMarks = [...bookmarks, bookMarkJob];
+    localStorage.setItem("bookmarks", JSON.stringify(bookMarks));
+    this.setState({ bookmarks: [...bookmarks, bookMarkJob] });
+    this.updateJobs(id);
   };
 
   renderJobDetailsView = () => {
@@ -147,7 +170,9 @@ class Jobs extends Component {
     return (
       <JobDetails
         jobData={jobData}
-        clickAddorRemoveBookMark={this.onClickAddorRemoveBookMark}
+        clickBack={this.onClickBack}
+        clickRemoveBookMark={this.onClickRemoveBookMark}
+        clickAddBookMark={this.onClickAddBookMark}
       />
     );
   };

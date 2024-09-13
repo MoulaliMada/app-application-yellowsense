@@ -13,7 +13,8 @@
 }
 .app {
   background-color: rgb(230, 226, 226);
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 .nav-buttons {
   background-color: transparent;

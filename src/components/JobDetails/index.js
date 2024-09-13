@@ -1,7 +1,13 @@
+import React, { useState, useEffect } from "react";
 import "./index.css";
 
 function JobDetails(props) {
-  const { jobData, clickAddorRemoveBookMark } = props;
+  const {
+    jobData,
+    clickAddBookMark,
+    clickBack,
+    clickRemoveBookMark,
+  } = props;
   const {
     id,
     companeyName,
@@ -14,20 +20,43 @@ function JobDetails(props) {
     whatsappNo,
     numApplications,
     title,
-    isBookMark,
   } = jobData;
+  let{isBookMark}=jobData
   const { Experience, Place, Qualification, Salary } = primaryDetails;
-  const onClickAddorRemoveBookMark = () => {
-    clickAddorRemoveBookMark(id);
+
+  const [isJobpresent, setisJobPresent] = useState(false);
+
+  console.log(isJobpresent);
+
+  const onClickAddBookMark = () => {
+    clickAddBookMark(id);
   };
+
+  const onClickBack = () => {
+    clickBack();
+  };
+  const onClickRemoveBookMark = () => {
+    clickRemoveBookMark(id);
+  };
+
+  useEffect(() => {
+    // Get the jobs list from localStorage when component mounts
+    const savedJobs = localStorage.getItem("bookmarks");
+    const jobs = JSON.parse(savedJobs);
+    if (jobs !== null) {
+      const jobExists = jobs.some((job) => job.id === id);
+      setisJobPresent(jobExists);
+    }
+  }, [id]);
+
   return (
     <div className="job-detail-container">
       <h1 className="companeyName">{companeyName}</h1>
-      <div>
+      <div className="containe1">
         <p className="title">{title}</p>
         <p className="title">job Category : {jobCategory}</p>
       </div>
-      <div>
+      <div className="containe1">
         <p className="title">job Role : {jobRole}</p>
         <p className="title">Salary : {Salary}</p>
       </div>
@@ -49,10 +78,19 @@ function JobDetails(props) {
       </div>
       <div>
         <button className="add-bookmark apply-now">Apply Now</button>
-        <button className="add-bookmark" onClick={onClickAddorRemoveBookMark}>
-          {!isBookMark ? "Add Bookmark" : "Remove From Bookmark"}
-        </button>
+        {isBookMark ? (
+          <button className="add-bookmark" onClick={onClickRemoveBookMark}>
+            Remove From Bookmark
+          </button>
+        ) : (
+          <button className="add-bookmark" onClick={onClickAddBookMark}>
+            Add Bookmark
+          </button>
+        )}
       </div>
+      <button className="back-btn" onClick={onClickBack}>
+        Back
+      </button>
     </div>
   );
 }

@@ -1,0 +1,11 @@
+.empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.heading{
+    margin: 0px;
+}
+.containe{
+    padding: 30px;
+}

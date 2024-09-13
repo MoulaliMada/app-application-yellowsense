@@ -1,14 +1,13 @@
 import "./index.css";
 
 function Jobcard(props) {
-  const { jobDetails ,clickJobCard} = props;
-  const { title, location, whatsappNo, primaryDetails, isBookMark,id } =
-    jobDetails;
+  const { jobDetails, clickJobCard } = props;
+  const { title, location, whatsappNo, primaryDetails, id } = jobDetails;
   const { Salary } = primaryDetails;
 
-  const onClickJobCard = ()=>{
-     clickJobCard(id)
-  }
+  const onClickJobCard = () => {
+    clickJobCard(id);
+  };
 
   return (
     <li className="jobcard" onClick={onClickJobCard}>
@@ -18,9 +17,6 @@ function Jobcard(props) {
         <p className="salary">{Salary}</p>
       </div>
       <p>{location}</p>
-      <button className="add-bookmark">
-        {!isBookMark ? "Add Bookmark" : "Remove Bookmark"}
-      </button>
     </li>
   );
 }
